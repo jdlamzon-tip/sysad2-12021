@@ -1,0 +1,7 @@
+---
+
+- name: Install Linux, Apache, MySQL, PHP (LAMP) stack on ubuntu
+  hosts: ubuntu
+
+  roles:
+    - server-installation
