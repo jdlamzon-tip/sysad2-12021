@@ -1,0 +1,8 @@
+---
+# tasks file for roles/create-user
+
+- name: Create a user with a variable defined in config.yaml
+  user:
+    name: "{{ createuser }}"
+    shell: /bin/bash
+    comment: New user "{{ createuser }}"

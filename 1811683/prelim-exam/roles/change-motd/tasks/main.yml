@@ -1,0 +1,6 @@
+---
+# tasks file for roles/change-motd
+
+  - name: Change MOTD
+    become: yes
+    command: sh -c 'echo "Ansible Managed node by {{ changemotd }}" > /etc/motd'

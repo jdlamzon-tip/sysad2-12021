@@ -1,0 +1,32 @@
+---
+
+  - name: Hands-on Prelim Exam
+    hosts: ubuntu
+
+    tasks:
+      - name: Include config.yaml
+        include_vars:
+          file: config.yaml
+
+  - name: Install Python, Java, Change MOTD, and Create User
+    hosts: ubuntu
+    roles:
+      - python
+      - java
+      - change-motd
+      - create-user
+
+  - name: Change MOTD
+    hosts: ubuntu
+    
+    roles:
+      - change-motd
+
+  - name: Create User
+    hosts: ubuntu
+
+    roles:
+      - create-user
+
+  
+    
