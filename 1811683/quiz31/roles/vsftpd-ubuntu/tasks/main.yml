@@ -1,0 +1,52 @@
+---
+# tasks file for roles/vsftpd-ubuntu
+
+- name: install vsftpd
+  apt:
+    name: vsftpd
+    state: present
+    update_cache: yes
+
+- name: stop firewall services
+  service:
+    name: ufw
+    state: stopped
+
+- name: create ftp user
+  user:
+    name: andy
+    password: $6$.QV66hhrUeb$9o0ZqZjhu9gzJ/s6h7WBxHs5bjlV886Qj6REgLhG7pmFW970HtqG.yvMwWpYU1pvCmVFk5.YjEOHp5I.ryEfd/
+    comment: "User of Andy's FTP Access"
+
+- name: denying ftp user
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: "Deniying ftp user: Andy"
+  register: sshd_config
+
+- name: restarting sshd
+  service:
+    name: sshd
+    state: restarted
+  when: sshd_config.changed
+
+- name: create ftp folder
+  file:
+    path: /home/andy/ftp
+    state: directory
+    owner: nobody
+    group: nogroup
+    mode: '0555'
+
+- name: copy /etc/vsftpd.conf
+  copy:
+    src: vsftpd.conf
+    dest: /etc/vsftpd.conf
+  register: config_vsftp
+
+- name: restart vsftp
+  service:
+    name: vsftpd
+    state: restarted
+  when: config_vsftp.changed
+
