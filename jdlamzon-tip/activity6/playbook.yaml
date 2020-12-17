@@ -1,0 +1,13 @@
+---
+
+- name: Install dhcpd, bind9, vsftpd, samba, httpd, and mariadb in Ubuntu#  
+  hosts: ubuntu
+
+  roles:
+    - ubuntu-installs
+
+- name: Install dhcpd, bind9, vsftpd, samba, httpd, and mariadb in CentOS
+  hosts: centos
+
+  roles:
+    - centos-installs
