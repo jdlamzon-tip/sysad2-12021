@@ -1,0 +1,55 @@
+---
+# tasks file for roles/ubuntu-httpd
+
+- name: install httpd
+  become: yes
+  apt:
+    name: apache2
+    state: latest
+    update_cache: yes
+
+- name: create directory for the website
+  become: yes
+  file:
+    path: /var/www/quiz32_domain
+    state: directory
+    owner: nobody
+    group: nogroup
+
+- name: copy index.html
+  become: yes
+  copy:
+    src: /etc/apache2/sites-available/000-default.conf
+    remote_src: yes
+    dest: /quiz32_domain.conf
+
+- name: add configure file
+  become: yes
+  copy:
+    src: /quiz32_domain.conf
+    remote_src: yes
+    dest: /etc/apache2/sites-available
+
+- name: edit configure directory
+  become: yes
+  replace:
+    path: /etc/apache2/sites-available/quiz32_domain.conf
+    regexp: '/var/www/html'
+    replace: '/var/www/quiz32'
+
+- name: edit server name
+  become: yes
+  replace:
+    path: /etc/apache2/sites-available/quiz32_domain.conf
+    regexp: "ServerName www.example.com"
+    replace: "ServerName www.quiz32.com"
+
+- name: activate virtual host
+  command: a2ensite quiz32_domain.conf
+
+- name: reload the server
+  become: yes
+  service:
+    name: apache2
+    state: restarted
+

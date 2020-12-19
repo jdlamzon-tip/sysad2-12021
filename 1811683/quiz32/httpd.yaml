@@ -1,0 +1,13 @@
+---
+
+##- name: Install and configure an httpd server to Ubuntu
+  ##  hosts: ubuntu
+
+  ##  roles:
+    ##    - ubuntu-httpd
+
+- name: Install and configure an httpd server to CentOS
+  hosts: centos
+
+  roles:
+    - centos-httpd
