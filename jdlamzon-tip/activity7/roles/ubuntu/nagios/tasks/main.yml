@@ -1,0 +1,8 @@
+---
+# tasks file for roles/ubuntu/nagios
+- name: installing nagios
+  apt:
+    name:
+      - nagios4
+      - nagios-plugins-contrib
+      - nagios-nrpe-plugin
