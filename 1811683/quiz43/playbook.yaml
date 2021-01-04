@@ -1,0 +1,12 @@
+---
+- name: install elastic search in ubuntu
+  hosts: ubuntu
+
+  roles:
+    - ubuntu-elk
+
+- name: install elastic search in centos
+  hosts: centos
+
+  roles:
+    - centos-elk

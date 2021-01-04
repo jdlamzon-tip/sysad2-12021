@@ -1,0 +1,46 @@
+---
+# tasks file for roles/centos-elk
+- name: installing java
+  yum:
+    name: java-1.8.0-openjdk
+    state: present
+
+- name: adding gpg key
+  become: yes
+  command: sudo rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+- name: adding elastic rpm repo
+  copy:
+    src: elasticsearch.repo
+    dest: /etc/yum.repos.d/
+
+- name: updating centos
+  dnf:
+    update_cache: yes
+
+- name: installing elasticsearch
+  dnf:
+    name: elasticsearch
+    state: present
+
+- name: installing kibana
+  dnf:
+    name: kibana
+    state: present
+
+- name: installing filebeat
+  dnf:
+    name: kibana
+    state: present
+
+- name: installing filebeat
+  yum:
+    name: filebeat
+    state: present
+
+- name: installing logstash
+  become: yes
+  dnf:
+    name: logstash
+    state: latest
+
