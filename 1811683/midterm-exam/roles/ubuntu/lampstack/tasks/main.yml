@@ -1,0 +1,57 @@
+---
+# tasks file for roles/ubuntu/lampstack
+- name: install apache web server
+  apt:
+    name: apache2
+    state: present
+
+- name: starting services
+  become: yes
+  shell: systemctl start apache2
+
+- name: allow access to tcp port 80
+  ufw:
+    rule: allow
+    port: '80'
+    proto: tcp
+
+- name: enable firewall
+  ufw:
+    state: enabled
+  register: firewall
+
+- name: installing mysql
+  apt:
+    name: mysql-server
+    state: present
+  when: firewall.changed
+
+- name: installing php
+  apt:
+    name:
+      - php
+      - libapache2-mod-php
+      - php-mysql
+    state: present
+
+- name: create midterm.html
+  copy:
+    content: "<h1> Midterm Exam </h1> <br> Created index.html"
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: test PHP
+  copy:
+    src: config/ubuntu/midterm.html
+    dest: /var/www/html/info.php
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: installing pre-requisites
+  become: yes
+  apt:
+    name: mariadb-client-core-10.3
+    state: present

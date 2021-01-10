@@ -1,0 +1,14 @@
+---
+# tasks file for roles/ubuntu/elk/java
+- name: add the java PPA repo
+  apt_repository:
+    repo: ppa:ts.sch.gr/ppa
+
+- name: accept the oracle license
+  shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+
+- name: Install Java 8
+  apt:
+    name: oracle-java8-installer
+    state: present
+    update_cache: yes

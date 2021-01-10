@@ -1,0 +1,42 @@
+---
+# tasks file for roles/centos/elk/kibana
+- name: install kibana
+  become: yes
+  yum:
+    name: kibana
+    update_cache: yes
+
+- name: update the config file to alllow outside access in kibana
+  become: yes
+  replace:
+    path: /etc/kibana/kibana.yml
+    regexp: '#server.host:'
+    replace: 'server.host: 127.0.0.1'
+
+- name: defining the server port in kibana
+  become: yes
+  lineinfile:
+    destfile: /etc/kibana/kibana.yml
+    regexp: '#server.port: 5601'
+    line: 'server.port: 5601'
+
+- name: defining the elasticsearch URL
+  become: yes
+  replace:
+    path: /etc/kibana/kibana.yml
+    regexp: 'elasticsearch.url:'
+    replace: 'elasticsearch.url: ["http://localhost:9200"]'
+    
+- name: start kibana
+  become: yes
+  service:
+    name: kibana
+    state: started
+    enabled: yes
+
+- name: restart kibana
+  become: yes
+  service:
+    name: kibana
+    state: restarted
+

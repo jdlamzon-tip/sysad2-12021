@@ -1,0 +1,38 @@
+---
+# tasks file for roles/centos/elk/elasticsearch
+- name: add the gpg key
+  become: yes
+  command: sudo rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+- name: add elasticsearch
+  become: yes
+  copy:
+    src: config/centos/elasticsearch.repo
+    dest: /etc/yum.repos.d/
+
+- name: update centos
+  become: yes
+  dnf:
+    update_cache: yes
+
+- name: install elasticsearch
+  become: yes
+  dnf:
+    name: elasticsearch
+    state: present
+
+- name: update config file to allow outside access
+  become: yes
+  lineinfile:
+    destfile: /etc/elasticsearch/elasticsearch.yml
+    regexp: 'http.port:'
+    line: 'http.port: 9200'
+
+- name: start elasticsearch
+  become: yes
+  service:
+    name: elasticsearch
+    state: started
+    enabled: yes
+
+

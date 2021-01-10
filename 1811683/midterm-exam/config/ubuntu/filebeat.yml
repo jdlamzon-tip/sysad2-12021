@@ -1,0 +1,21 @@
+paths:
+  - /var/log/auth.log
+  - /var/log/syslog
+  - /var/log/*.log
+
+document_type: syslog
+
+logstash:
+  hosts: ["ELK_server_private_IP:5044"]
+
+bulk_max_size: 1024
+
+filebeat.modules:
+  - module: nginx
+  - module: mysql
+  - module: system
+
+filebeat.config.modules:
+  enabled: true
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false

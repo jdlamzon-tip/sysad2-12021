@@ -1,0 +1,23 @@
+---
+# tasks file for roles/ubuntu/elk/filebeat
+- name: install filebeat
+  apt:
+    name: filebeat
+    update_cache: yes
+
+- name: filebeat config file
+  copy:
+    src: filebeat.yml
+    dest: "/etc/filebeat/"
+
+- name: enable filebeat
+  service:
+    name: filebeat
+    state: started
+
+- name: restart filebeat
+  service:
+    name: filebeat
+    state: restarted
+
+

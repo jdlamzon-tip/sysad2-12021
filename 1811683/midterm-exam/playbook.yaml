@@ -1,0 +1,71 @@
+---
+- name: Midterm Exam
+  hosts: centos
+
+  tasks:
+    - name: include config.yaml
+      include_vars:
+        file: config.yaml
+
+- name: Install and Configure Elastic Stack (Ubuntu)
+  hosts: ubuntu
+  become: yes
+  roles:
+    - ubuntu/elk/java
+    - ubuntu/elk/elasticsearch
+    - ubuntu/elk/kibana
+    - ubuntu/elk/logstash
+
+- name: Install and Configure Elastic Stack (Centos)
+  hosts: centos
+  roles:
+    - centos/elk/java
+    - centos/elk/elasticsearch
+    - centos/elk/kibana
+    - centos/elk/logstash
+
+
+- name: install nagios in one host (centos)
+  hosts: centos
+  roles:
+    - centos/nagios
+
+- name: install grafana (ubuntu)
+  hosts: ubuntu
+  roles:
+    - ubuntu/grafana
+
+- name: install grafana (centos)
+  hosts: centos
+  roles:
+    - centos/grafana
+
+- name: install prometheus (ubuntu)
+  hosts: ubuntu
+  roles:
+    - ubuntu/prometheus
+
+- name: install prometheus (centos)
+  hosts: centos
+  roles:
+    - centos/prometheus
+
+- name: install influxdb (ubuntu)
+  hosts: ubuntu
+  roles:
+    - ubuntu/influxdb
+
+- name: install influxdb (centos)
+  hosts: centos
+  roles:
+    - centos/influxdb
+
+- name: install lamp stack (ubuntu)
+  hosts: ubuntu
+  roles:
+    - ubuntu/lampstack
+
+- name: install lamp stack (centos)
+  hosts: centos
+  roles:
+    - centos/lampstack

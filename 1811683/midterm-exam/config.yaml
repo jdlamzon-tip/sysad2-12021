@@ -1,0 +1,4 @@
+---
+user_1: nagios
+user_2: apache
+group: nagiosxi

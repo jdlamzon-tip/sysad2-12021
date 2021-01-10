@@ -1,0 +1,29 @@
+---
+# tasks file for roles/ubuntu/elk/logstash
+- name: install logstash
+  apt:
+    name: logstash
+    update_cache: yes
+
+- name: copy config file (02-beats-input.conf)
+  copy:
+    src: config/ubuntu/02-beats-input.conf
+    dest: "/etc/logstash/conf.d"
+
+- name: copy config file (10-syslog-filter.conf)
+  copy:
+    src: config/ubuntu/10-syslog-filter.conf
+    dest: "/etc/logstash/conf.d"
+
+- name: copy config file (30-elasticsearch-output.conf)
+  copy:
+    src: config/ubuntu/30-elasticsearch-output.conf
+    dest: "/etc/logstash/conf.d"
+
+- name: start logstash
+  shell: systemctl start logstash
+
+- name: enable logstash
+  service:
+    name: logstash
+    enabled: yes

@@ -1,0 +1,21 @@
+---
+# tasks file for roles/ubuntu/influxdb
+- name: adding influxdb repo
+  copy:
+     content: "deb https://repos.influxdata.com/ubuntu focal stable"
+     dest: /etc/apt/sources.list.d/influxdb.list
+
+- name: importing gpg key
+  apt_key:
+    url: https://repos.influxdata.com/influxdb.key
+    state: present
+
+- name: updating ubuntu
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: installing influxdb
+  apt:
+    name: influxdb
+    state: present

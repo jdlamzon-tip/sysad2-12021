@@ -1,0 +1,33 @@
+---
+# tasks file for roles/ubuntu/elk/filebeat
+- name: install filebeat
+  apt:
+    name: filebeat
+    update_cache: yes
+
+- name: filebeat config file
+  copy:
+    src: filebeat.yml
+    dest: "/etc/filebeat/"
+
+- name: enable filebeat module
+  become: yes
+  command: filebeat modules enable system nginx mysql
+
+- name: load the template
+  become: yes
+  command: filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["localhost:9200"]'
+
+- name: check version information
+  become: yes
+  shell: filebeat setup -e -E output.logstash.enabled=false -E output.elasticsearch.hosts=['localhost:9200'] -E setup.kibana.host=localhost:5601
+
+- name: start filebeat
+  shell: systemctl start filebeat
+
+- name: enable filebeat
+  service:
+    name: filebeat
+    enabled: yes
+
+

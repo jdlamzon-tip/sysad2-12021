@@ -1,0 +1,32 @@
+---
+# tasks file for roles/centos/elk/logstash
+- name: install logstash
+  become: yes
+  yum:
+    name: logstash
+    update_cache: yes
+
+- name: copy the config file (02-beats-input.conf)
+  become: yes
+  copy:
+    src: config/centos/02-beats-input.conf
+    dest: "/etc/logstash/conf.d"
+
+- name: copy the config file (10-syslog-filter.conf)
+  become: yes
+  copy:
+    src: config/centos/10-syslog-filter.conf
+    dest: "/etc/logstash/conf.d"
+
+- name: copy the config file (30-elasticsearch-output.conf)
+  become: yes
+  copy:
+    src: config/centos/30-elasticsearch-output.conf
+    dest: "/etc/logstash/conf.d"
+
+- name: start logstash
+  become: yes
+  service:
+    name: logstash
+    state: started
+    enabled: yes

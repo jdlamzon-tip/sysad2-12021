@@ -1,0 +1,32 @@
+---
+# tasks file for roles/centos/influxdb
+- name: add influxdb.repo
+  become: yes
+  copy:
+    src: config/centos/influxdb.repo
+    dest: /etc/yum.repos.d/
+
+- name: update cache
+  become: yes
+  dnf:
+    update_cache: yes
+
+- name: install the influxdb
+  become: yes
+  dnf:
+    name: influxdb
+    state: present
+
+- name: start the services
+  become: yes
+  dnf:
+    name: influxdb
+    state: present
+
+- name: start service
+  become: yes
+  service:
+    name: influxdb
+    state: started
+    enabled: yes
+
