@@ -1,0 +1,10 @@
+---
+- name: Install Elastic Srack in a containerized form (ubuntu)
+  hosts: ubuntu
+  roles:
+    - ubuntu-containerized_elk
+
+- name: Install Elastic Stack in a containerized form (centos)
+  hosts: centos
+  roles:
+    - centos-containerized_elk

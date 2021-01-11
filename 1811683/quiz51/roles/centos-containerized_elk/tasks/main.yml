@@ -1,0 +1,52 @@
+---
+# tasks file for roles/centos-containerized_elk
+- name: installing podman file
+  yum:
+    name: podman
+    state: latest
+    update_cache: yes
+
+- name: pull elasticsearch image
+  containers.podman.podman_image:
+    name: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+
+- name: create elasticsearch network
+  containers.podman.podman_network:
+    name: elastic
+
+- name: create containers for elasticsearch
+  containers.podman.podman_containers:
+    containers:
+      - name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+        state: present
+        ports:
+          - "9400:9400"
+        networks:
+          - name: elastic
+
+- name: pull kibana image
+  containers.podman.podman_image:
+    name: docker.elastic.co/kibana/kibana:7.10.1
+
+- name: create container for kibana
+  containers.podman.podman_containers:
+    containers:
+      - name: kibana
+        image: docker.elastic.co/kibana/kibana:7.10.1
+        state: present
+        ports:
+          - "5602:5602"
+        networks:
+          - name: elastic
+
+- name: pull logstash image
+  containers.podman.podman_containers:
+    containers:
+      - name: logstash
+        image: docker.elastic.co/logstash/logstash:7.10.1
+        state: present
+        port:
+          - "5044:5044"
+        networks:
+          - name: elastic
