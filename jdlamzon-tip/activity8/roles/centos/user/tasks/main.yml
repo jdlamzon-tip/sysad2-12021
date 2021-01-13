@@ -1,0 +1,13 @@
+---
+# tasks file for roles/centos/user
+- name: Create docker group
+  become: yes
+  group:
+    name: docker
+    state: present
+
+- name: Add docker group to curent user
+  become: yes
+  user:
+    name: andylamzoned
+    group: docker
