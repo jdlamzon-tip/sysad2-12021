@@ -1,0 +1,13 @@
+---
+# tasks file for roles/opensuse/prelimclone
+- name: install git in opensuse
+  zypper:
+    name: git
+    state: latest
+
+- name: clone github prelim exam on opensuse
+  become: yes
+  git:
+    repo: '{{ gitclone }}'
+    dest: ./prelim-exam
+    version: prelim-exam

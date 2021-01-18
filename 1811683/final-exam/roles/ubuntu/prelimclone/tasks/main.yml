@@ -1,0 +1,15 @@
+---
+# tasks file for roles/ubuntu/prelimclone
+- name: install pre- requisite GIT in ubuntu
+  become: yes
+  apt:
+    name: git
+    state: latest
+    update_cache: yes
+
+- name: clone github prelim exam repo in ubuntu
+  become: yes
+  git:
+    repo: '{{ gitclone }}'
+    dest: ./prelim-exam
+    version: prelim-exam

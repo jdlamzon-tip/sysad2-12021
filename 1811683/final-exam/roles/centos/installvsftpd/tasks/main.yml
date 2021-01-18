@@ -1,0 +1,22 @@
+---
+# tasks file for roles/centos/installvsftpd
+- name: install vsftpd
+  become: yes
+  yum:
+    name: vsftpd
+    state: latest
+    update_cache: yes
+
+- name: change state of firewall
+  become: yes
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+
+- name: create ftp user
+  become: yes
+  user:
+    name: '{{ ftpuser }}'
+    password: '{{ ftppass }}'
+    comment: "Ftp User"

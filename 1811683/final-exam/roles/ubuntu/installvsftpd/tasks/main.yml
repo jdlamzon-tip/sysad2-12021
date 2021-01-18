@@ -1,0 +1,22 @@
+---
+# tasks file for roles/ubuntu/installvsftpd
+- name: install vsftpd for ubuntu
+  become: yes
+  apt:
+    name: vsftpd
+    state: latest
+    update_cache: yes
+
+- name: change the state of the uncomplicated firewall
+  become: yes
+  service:
+    name: ufw
+    state: stopped
+    enabled: no
+
+- name: start the vsftpd service
+  become: yes
+  service:
+    name: vsftpd
+    state: started
+    enabled: yes

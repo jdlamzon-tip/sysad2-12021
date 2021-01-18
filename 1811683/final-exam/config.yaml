@@ -1,0 +1,7 @@
+gitclone: https://github.com/jdlamzon-tip/sysad2-12021.git
+user: andylamzoned
+ftpuser: "newftpuser"
+ftppass: "$5$IjJv/GNf5Fg8T$HZhqkPKhiAQITHKd4tWXLoGWtkAoB4ZUIWADP7dwcF5"
+nagadminpass: "$5$ZyBNR4pZz7tyQenr$tnY9Q8d6X/ZE9NxlmPsxku7kna.edyEtuRYxV/WHrT7"
+nagadmin:  "newnaguser"
+nagpass: "$5$2UJ7WWaVzI$8pzZhZzT0D9vWKEptqQMrIcx0dW/LY5jJkRlS6qflNA"

@@ -1,0 +1,14 @@
+---
+# tasks file for roles/centos/prelimclone
+- name: install git pre-requisites on centos
+  become: yes
+  yum:
+    name: git
+    state: latest
+
+- name: clone prelim exam branch in centos
+  become: yes
+  git:
+    repo: '{{ gitclone }}'
+    dest: ./prelim-exam
+    version: prelim-exam

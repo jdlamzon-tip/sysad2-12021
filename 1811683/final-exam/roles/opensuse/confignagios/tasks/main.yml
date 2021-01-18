@@ -1,0 +1,78 @@
+---
+# tasks file for roles/opensuse/confignagios
+- name: configure the nagios
+  become: yes
+  command: ./configure --with-command-group=nagcmd --with-command-group=nagcmd --with-httpd_conf=/etc/httpd/conf.d
+  args:
+    chdir: /downloads/nagios-4.2.1
+
+- name: clean nagios directory (downloads)
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: clean
+
+- name: install init script
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: install-init
+
+- name: Install config in nagios-4.2.1
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: install-config
+
+- name: install commandmode in nagios-4.2.1
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: install-commandmode
+
+- name: install nagios web interface
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: install-webconf
+
+- name: enable apache rewrite
+  shell: 'a2enmod rewrite cgi'
+
+- name: install python for htpasswd
+  become: yes
+  zypper:
+    name: python3-pip
+    state: latest
+
+- name: install htpasswd module
+  become: yes
+  pip:
+    name: passlib
+    state: latest
+
+- name: create nagios admin account
+  become: yes
+  htpasswd:
+    path: /usr/local/nagios/etc/htpasswd.users
+    name: nagiosadmin
+    password: '{{ nagadminpass }}'
+    crypt_scheme: sha256_crypt
+
+- name: restart apache
+  become: yes
+  service:
+    name: apache2
+    state: reloaded
+
+- name: start apache
+  become: yes
+  service:
+    name: apache2
+    state: started
+
+- name: start nagios service
+  become: yes
+  service:
+    name: nagios
+    state: started
