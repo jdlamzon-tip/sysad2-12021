@@ -1,9 +1,11 @@
 ---
 # tasks file for roles/ubuntu/installvsftpd
-- name: install vsftpd for ubuntu
+- name: install vsftpd for debian
   become: yes
   apt:
-    name: vsftpd
+    name:
+      - vsftpd
+      - ufw
     state: latest
     update_cache: yes
 

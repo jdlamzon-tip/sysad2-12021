@@ -1,5 +1,5 @@
 ---
-# tasks for ubuntu (FINAL-EXAM)
+# FINAL-EXAM
 - name: include config.yaml
   hosts: all
   tasks:
@@ -18,21 +18,21 @@
         path: /etc/motd
         line: Ansible Managed by '{{ user }}'
 
-- name: change motd for ubuntu
-  hosts: ubuntu
+- name: change motd for debian
+  hosts: debian
   tasks:
     - name: MOTD changed
       become: yes
       command: sh -c 'echo "Ansible Managed by {{ user }}" > /etc/motd'
 
 - name: pre-requiste to install in ubuntu
-  hosts: ubuntu
+  hosts: debian
   roles:
-    - ubuntu/prelimclone
-    - ubuntu/installvsftpd
-    - ubuntu/configvsftpd
-    - ubuntu/installnagios
-    - ubuntu/confignagios
+    - debian/prelimclone
+    - debian/installvsftpd
+    - debian/configvsftpd
+    - debian/installnagios
+    - debian/confignagios
 
 - name: pre-requisite to install in centos
   hosts: centos

@@ -1,6 +1,6 @@
 ---
 # tasks file for roles/ubuntu/installnagios
-- name: install pre-requisite on ubuntu
+- name: install pre-requisite on debian
   become: yes
   apt:
     name:

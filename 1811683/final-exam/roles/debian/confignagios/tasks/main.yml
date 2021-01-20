@@ -1,0 +1,83 @@
+---
+# tasks file for roles/ubuntu/confignagios
+- name: create virtual host directory
+  become: yes
+  file:
+    path: /etc/httpd/conf.d
+    state: directory
+
+- name: config nagios script
+  shell: ./configure --with-command-group=nagcmd --with-command-group=nagcmd --with-httpd_conf=/etc/httpd/conf.d
+  args:
+    chdir: /downloads/nagios-4.2.1
+
+- name: clean nagios core file
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: clean
+
+- name: compiling nagios core
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: all
+
+- name: install nagios binaries
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: install
+
+- name: install init script in nagios
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: install-init
+
+- name: install config file in nagios
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: install-config
+
+- name: set permission in nagios
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: install-commandmode
+
+- name: install nagios web interface
+  become: yes
+  make:
+    chdir: /downloads/nagios-4.2.1
+    target: install-webconf
+
+- name: install co-requisite python for htpasswd
+  become: yes
+  apt:
+    name: python3-pip
+    state: latest
+
+- name: install htpasswd module
+  become: yes
+  apt:
+    name: python-passlib
+    state: latest
+
+- name: create nagiosadmin
+  become: yes
+  htpasswd:
+    path: /usr/local/nagios/etc/htpasswd.users
+    name: '{{ nagadmin }}'
+    password: '{{ nagadminpass }}'
+
+- name: restart apache
+  become: yes
+  service:
+    name: apache2
+    state: reloaded
+
+- name: start nagios
+  shell: '/etc/init.d/nagios start'
+
