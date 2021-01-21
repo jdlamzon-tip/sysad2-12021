@@ -1,5 +1,4 @@
-<h2>Directory Summary</h2>
-
+<h2>Directory Summary:</h2>
 ```
 .
 ├── README.md
@@ -94,7 +93,7 @@
 │   │       │   └── test.yml
 │   │       └── vars
 │   │           └── main.yml
-│   ├── opensuse
+│   ├── debian
 │   │   ├── confignagios
 │   │   │   ├── README.md
 │   │   │   ├── defaults
@@ -180,7 +179,7 @@
 │   │       │   └── test.yml
 │   │       └── vars
 │   │           └── main.yml
-│   └── ubuntu
+│   └── opensuse
 │       ├── confignagios
 │       │   ├── README.md
 │       │   ├── defaults
